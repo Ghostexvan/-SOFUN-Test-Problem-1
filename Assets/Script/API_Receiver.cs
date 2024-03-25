@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class API_Testing : MonoBehaviour
+public class API_Receiver : MonoBehaviour
 {
     [Serializable]
     public struct PlayerInfo{
@@ -18,6 +18,12 @@ public class API_Testing : MonoBehaviour
     [SerializeField]
     private PlayerInfo[] playerInfos;
 
+    [SerializeField]
+    private Transform rankContent;
+
+    [SerializeField]
+    private GameObject playerRankPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +31,7 @@ public class API_Testing : MonoBehaviour
         StartCoroutine(GetRequest("https://sofun.vn/API/rank.php"));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    IEnumerator GetRequest(string uri){
+    private IEnumerator GetRequest(string uri){
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri)){
             yield return webRequest.SendWebRequest();
 
@@ -51,8 +51,21 @@ public class API_Testing : MonoBehaviour
                     Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
                     string received = "{\"Players\":" + webRequest.downloadHandler.text + "}";
                     playerInfos = JsonHelper.FromJson<PlayerInfo>(received);
+                    ShowPlayersRank();
                     break;
             }
+        }
+    }
+
+    private void ShowPlayersRank(){
+        for (int index = 0; index < playerInfos.Length; index++){
+            GameObject playerInfo = Instantiate(playerRankPrefab, rankContent);
+            playerInfo.GetComponent<PlayerRankInfoController>().SetInfo(
+                playerInfos[index].rank,
+                playerInfos[index].name,
+                playerInfos[index].level,
+                playerInfos[index].luc_chien
+            );
         }
     }
 }
