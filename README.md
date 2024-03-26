@@ -1,12 +1,12 @@
 # SOFUN-Test-Problem-1
-This Repository was created to test the input capacity of Sofun JSC limited liability company.
+This repository was created as an entrance test by Sofun JSC LLC.
 Getting Started:
    - [Requirements](#requirements).
    - [Download](#how-to-download).
 
 ## Requirements
 - [Unity Game Engine](https://unity.com/).
-- Basic Knowledge about Unity and C#.
+- Basic Knowledge of Unity and C#.
 
 ## How to download
 1. App version for Windows platform: [Windows Build](https://github.com/Ghostexvan/SOFUN-Test-Problem-1/releases/tag/windows).
